@@ -12,6 +12,10 @@ export class UsersService {
 
     }
 
+    async findById(id: string): Promise<any> {
+        return await this.userModel.findById(id).exec();
+    }
+
     async create(createUserDto: CreateUserDto): Promise<UserInterface> {
         const createdCat: any = new this.userModel(createUserDto);
         createdCat.password = sha256(createdCat.password);
@@ -25,6 +29,10 @@ export class UsersService {
 
     async findOne(username: string): Promise<any | undefined> {
         return this.users.find(user => user.username === username);
+    }
+
+    async updateItem(id: string, createUserDto: CreateUserDto): Promise<any> {
+        return this.userModel.findByIdAndUpdate(id, createUserDto);
     }
 
     public async findOneByEmail(

@@ -34,7 +34,6 @@ export class QuestionService {
     }
 
     async updateItem(id: string, createQuestionDto: QuestionsDto): Promise<any> {
-        console.log(createQuestionDto);
         return this.userModel.findByIdAndUpdate(id, createQuestionDto);
     }
 }
