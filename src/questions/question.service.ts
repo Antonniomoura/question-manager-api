@@ -2,7 +2,6 @@ import {Inject, Injectable} from '@nestjs/common';
 import {Model} from 'mongoose';
 import {QuestionsDto} from './dto/questions.dto';
 import {QuestionInterface} from './interfaces/question.interface';
-import * as sha256 from 'sha256';
 
 @Injectable()
 export class QuestionService {

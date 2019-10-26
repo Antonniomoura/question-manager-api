@@ -1,4 +1,4 @@
-import {Controller, Get, Request, Post, UseGuards, Param, Res} from '@nestjs/common';
+import {Controller, Get, Request, Post, UseGuards, Param, Res, Delete} from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
 import {AuthService} from './auth/auth.service';
 import {JwtStrategy} from './auth/jwt.strategy';
@@ -36,7 +36,6 @@ export class AppController {
 
     @Get('files/:fileId')
     async serveAvatar(@Param('fileId') fileId, @Res() res): Promise<any> {
-        console.log(fileId)
         res.sendFile(fileId, {root: 'avatars'});
     }
 }
