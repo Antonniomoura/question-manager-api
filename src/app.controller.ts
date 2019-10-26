@@ -1,14 +1,14 @@
-import {Controller, Get, Request, Post, UseGuards} from '@nestjs/common';
+import {Controller, Get, Request, Post, UseGuards, Param, Res} from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
 import {AuthService} from './auth/auth.service';
 import {JwtStrategy} from './auth/jwt.strategy';
 
-@Controller('api')
+@Controller()
 export class AppController {
     constructor(private readonly authService: AuthService, private jwtStrategy: JwtStrategy) {
     }
 
-    @Post('login')
+    @Post('api/login')
     async login(@Request() req) {
         let obj: any = req.body || {};
         if (req.body) {
@@ -19,7 +19,7 @@ export class AppController {
         return this.authService.doLogin(obj);
     }
 
-    @Post('me')
+    @Post('api/me')
     async meUser(@Request() req) {
         let obj: any = req.body || {};
         if (req.body) {
@@ -29,8 +29,14 @@ export class AppController {
     }
 
     @UseGuards(AuthGuard('jwt'))
-    @Get('me')
+    @Get('api/me')
     getProfile(@Request() req) {
         return req.user;
+    }
+
+    @Get('files/:fileId')
+    async serveAvatar(@Param('fileId') fileId, @Res() res): Promise<any> {
+        console.log(fileId)
+        res.sendFile(fileId, {root: 'avatars'});
     }
 }

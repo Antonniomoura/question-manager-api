@@ -1,16 +1,26 @@
-import {Controller, Get, Post, Body, Put, Param, Delete} from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Put,
+    Param,
+    Delete,
+    UseInterceptors,
+    UploadedFile, UploadedFiles, Res,
+} from '@nestjs/common';
 import {QuestionsDto} from './dto/questions.dto';
 import {QuestionService} from './question.service';
 import {QuestionInterface} from './interfaces/question.interface';
+import {AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor} from '@nestjs/platform-express';
+import {diskStorage} from 'multer';
+import {extname} from 'path';
 
 @Controller('questions')
 export class QuestionController {
-    constructor(private readonly questionsService: QuestionService) {
-    }
+    SERVER_URL: string = 'http://localhost:3000/';
 
-    @Post()
-    async create(@Body() createQuestionDto: QuestionsDto) {
-        this.questionsService.create(createQuestionDto);
+    constructor(private readonly questionsService: QuestionService) {
     }
 
     @Get()
@@ -31,5 +41,24 @@ export class QuestionController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.questionsService.deleteItem(id);
+    }
+
+    @Post()
+    @UseInterceptors(FileInterceptor('file',
+        {
+            storage: diskStorage({
+                destination: './avatars',
+
+                filename: (req, file, cb) => {
+                    const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+                    return cb(null, `${randomName}${extname(file.originalname)}`);
+                },
+            }),
+        },
+        ),
+    )
+    createUser(@UploadedFile() file, @Body() updateQuestionDto: any) {
+        updateQuestionDto.describe = file.filename;
+        this.questionsService.create(updateQuestionDto);
     }
 }

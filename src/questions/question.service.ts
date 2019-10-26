@@ -12,10 +12,6 @@ export class QuestionService {
 
     }
 
-    async create(createUserDto: QuestionsDto): Promise<QuestionInterface> {
-        return await new this.userModel(createUserDto).save();
-    }
-
     async findAll(): Promise<QuestionInterface[]> {
         return await this.userModel.find().exec();
     }
@@ -35,5 +31,8 @@ export class QuestionService {
 
     async updateItem(id: string, createQuestionDto: QuestionsDto): Promise<any> {
         return this.userModel.findByIdAndUpdate(id, createQuestionDto);
+    }
+    async create(createUserDto: QuestionsDto): Promise<QuestionInterface> {
+        return await new this.userModel(createUserDto).save();
     }
 }
