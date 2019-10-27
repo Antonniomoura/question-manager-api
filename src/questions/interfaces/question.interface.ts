@@ -7,8 +7,10 @@ export interface QuestionInterface extends Document {
     title: string;
     status: string;
     approved: boolean;
+    imgs: string[];
+    correct: number;
     active: boolean;
-    idCourse: string;
+    idCourses: string[];
     describe: string;
     schoolSubject: string;
     alternatives: [];

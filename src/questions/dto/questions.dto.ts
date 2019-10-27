@@ -6,7 +6,9 @@ export class QuestionsDto {
     status: string;
     approved: boolean;
     active: boolean;
-    idCourse: string;
+    idCourse: string[];
+    imgs: string[];
+    correct: number;
     describe: string;
     schoolSubject: string;
     alternatives: [];

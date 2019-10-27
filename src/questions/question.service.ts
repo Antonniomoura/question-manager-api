@@ -7,12 +7,12 @@ import {QuestionInterface} from './interfaces/question.interface';
 export class QuestionService {
     users: any;
 
-    constructor(@Inject('QUESTION_MODEL') private readonly userModel: Model<QuestionInterface>) {
+    constructor(@Inject('QUESTION_MODEL') private readonly questionService: Model<QuestionInterface>) {
 
     }
 
     async findAll(): Promise<QuestionInterface[]> {
-        return await this.userModel.find().exec();
+        return await this.questionService.find().exec();
     }
 
     async findOne(username: string): Promise<any | undefined> {
@@ -20,18 +20,18 @@ export class QuestionService {
     }
 
     async findById(id: string): Promise<any> {
-        return await this.userModel.findById(id).exec();
+        return await this.questionService.findById(id).exec();
     }
 
     async deleteItem(id: string): Promise<any> {
-        await this.userModel.findByIdAndRemove(id);
+        await this.questionService.findByIdAndRemove(id);
         return ({delete: true});
     }
 
-    async updateItem(id: string, createQuestionDto: QuestionsDto): Promise<any> {
-        return this.userModel.findByIdAndUpdate(id, createQuestionDto);
+    async updateItem(id: string, updateQuestionDto: any): Promise<any> {
+        return this.questionService.findByIdAndUpdate(id, updateQuestionDto);
     }
     async create(createUserDto: QuestionsDto): Promise<QuestionInterface> {
-        return await new this.userModel(createUserDto).save();
+        return await new this.questionService(createUserDto).save();
     }
 }

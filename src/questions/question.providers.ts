@@ -1,5 +1,5 @@
 import { Connection } from 'mongoose';
-import { QuestionSchema } from './schemas/questionSchema';
+import { QuestionSchema } from './schemas/question.schema';
 
 export const questionProviders = [
   {

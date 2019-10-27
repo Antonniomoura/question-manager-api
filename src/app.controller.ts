@@ -30,6 +30,7 @@ export class AppController {
     async login(@Request() req) {
         let obj: any = req.body || {};
         if (req.body) {
+            console.log(req.body)
             const email = req.body.email.toLocaleLowerCase();
             const password = req.body.password;
             obj = {email, password};

@@ -29,7 +29,7 @@ export class QuestionController {
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() updateQuestionDto: QuestionsDto) {
+    update(@Param('id') id: string, @Body() updateQuestionDto: any) {
         return this.questionsService.updateItem(id, updateQuestionDto);
     }
 
@@ -40,6 +40,6 @@ export class QuestionController {
 
     @Post()
     createUser(@Body() updateQuestionDto: any) {
-        this.questionsService.create(updateQuestionDto);
+      return this.questionsService.create(updateQuestionDto);
     }
 }
