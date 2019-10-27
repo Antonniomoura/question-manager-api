@@ -34,6 +34,10 @@ export class UsersService {
     async updateItem(id: string, createUserDto: CreateUserDto): Promise<any> {
         return this.userModel.findByIdAndUpdate(id, createUserDto);
     }
+    async deleteItem(id: string): Promise<any> {
+        await this.userModel.findByIdAndRemove(id);
+        return ({delete: true});
+    }
 
     public async findOneByEmail(
         email: string,

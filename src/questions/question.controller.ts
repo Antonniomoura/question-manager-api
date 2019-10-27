@@ -6,15 +6,10 @@ import {
     Put,
     Param,
     Delete,
-    UseInterceptors,
-    UploadedFile, UploadedFiles, Res,
 } from '@nestjs/common';
 import {QuestionsDto} from './dto/questions.dto';
 import {QuestionService} from './question.service';
 import {QuestionInterface} from './interfaces/question.interface';
-import {AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor} from '@nestjs/platform-express';
-import {diskStorage} from 'multer';
-import {extname} from 'path';
 
 @Controller('questions')
 export class QuestionController {
@@ -44,21 +39,7 @@ export class QuestionController {
     }
 
     @Post()
-    @UseInterceptors(FileInterceptor('file',
-        {
-            storage: diskStorage({
-                destination: './avatars',
-
-                filename: (req, file, cb) => {
-                    const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
-                    return cb(null, `${randomName}${extname(file.originalname)}`);
-                },
-            }),
-        },
-        ),
-    )
-    createUser(@UploadedFile() file, @Body() updateQuestionDto: any) {
-        updateQuestionDto.describe = file.filename;
+    createUser(@Body() updateQuestionDto: any) {
         this.questionsService.create(updateQuestionDto);
     }
 }

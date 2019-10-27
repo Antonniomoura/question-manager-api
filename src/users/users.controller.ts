@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Body, Param, Put, UseInterceptors, UploadedFile} from '@nestjs/common';
+import {Controller, Get, Post, Body, Param, Put, UseInterceptors, UploadedFile, Delete} from '@nestjs/common';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UsersService} from './users.service';
 import {UserInterface} from './interfaces/user.interface';
@@ -12,21 +12,7 @@ export class UsersController {
     }
 
     @Post()
-    @UseInterceptors(FileInterceptor('file',
-        {
-            storage: diskStorage({
-                destination: './avatars',
-
-                filename: (req, file, cb) => {
-                    const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
-                    return cb(null, `${randomName}${extname(file.originalname)}`);
-                },
-            }),
-        },
-        ),
-    )
-    async create(@UploadedFile() file, @Body() createUserDto: CreateUserDto) {
-        createUserDto.imageUrl = `files/${file.filename}`;
+    async create(@Body() createUserDto: CreateUserDto) {
         this.usersService.create(createUserDto);
     }
 
@@ -44,5 +30,9 @@ export class UsersController {
     @Get()
     async findAll(): Promise<UserInterface[]> {
         return this.usersService.findAll();
+    }
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return this.usersService.deleteItem(id);
     }
 }
