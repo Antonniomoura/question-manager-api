@@ -16,6 +16,10 @@ export class UsersService {
         return await this.userModel.findById(id).exec();
     }
 
+    async findByEmail(email: string): Promise<any> {
+        return await this.userModel.findOne({email}).exec();
+    }
+
     async create(createUserDto: CreateUserDto): Promise<UserInterface> {
         const createdCat: any = new this.userModel(createUserDto);
         createdCat.password = sha256(createdCat.password);
@@ -34,6 +38,7 @@ export class UsersService {
     async updateItem(id: string, createUserDto: CreateUserDto): Promise<any> {
         return this.userModel.findByIdAndUpdate(id, createUserDto);
     }
+
     async deleteItem(id: string): Promise<any> {
         await this.userModel.findByIdAndRemove(id);
         return ({delete: true});

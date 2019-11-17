@@ -13,7 +13,6 @@ import {QuestionInterface} from './interfaces/question.interface';
 
 @Controller('questions')
 export class QuestionController {
-    SERVER_URL: string = 'http://localhost:3000/';
 
     constructor(private readonly questionsService: QuestionService) {
     }
